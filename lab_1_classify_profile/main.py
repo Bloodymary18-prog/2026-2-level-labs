@@ -29,14 +29,13 @@ def tokenize(text: str) -> Sequence[str] | None:
     if not isinstance(text, str):
         return None
 
-    result: list[str] = []
+    result = []
 
     for raw_word in text.split():
         letters = [char.lower() for char in raw_word if char.isalpha()]
         if letters:
             result.append("".join(letters))
     return result
-
 
 
 def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Sequence[str] | None:
@@ -64,11 +63,9 @@ def remove_stop_words(tokens: Sequence[str], stop_words: Sequence[str]) -> Seque
         if not isinstance(word, str):
             return None
 
-    stop_set ={word.lower() for word in stop_words}
+    stop_set = {word.lower() for word in stop_words}
 
     return [token for token in tokens if token not in stop_set]
-
-
 
 
 def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
@@ -107,8 +104,6 @@ def calculate_frequencies(tokens: Sequence[str]) -> dict[str, float] | None:
     return frequency
 
 
-
-
 def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | None:
     """
     Finds the most common words
@@ -121,8 +116,6 @@ def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | 
         Sequence[str] | None: Sequence of the most common words.
         Returns None in case of incorrect input types or non-positive top_n.
     """
-
-
 
 
 # Mark 6.
