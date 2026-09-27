@@ -201,8 +201,8 @@ def check_profile(profile: ProfileType) -> bool:
     for word, value in freq.items():
         if not isinstance(word, str):
             return False
-            if isinstance(value, bool) or not isinstance(value, (int, float)):
-                return False
+        if isinstance(value, bool) or not isinstance(value, (int, float)):
+            return False
 
     return True
 
