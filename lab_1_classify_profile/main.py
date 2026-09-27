@@ -131,6 +131,7 @@ def get_top_n_words(freq_dict: dict[str, float], top_n: int) -> Sequence[str] | 
     sorted_words = sorted(freq_dict.keys(), key=lambda word: (-freq_dict[word], word))
     return sorted_words[:top_n]
 
+
 # Mark 6.
 
 
@@ -165,7 +166,7 @@ def create_language_profile(
 
     tokens = remove_stop_words(tokens, stop_words)
     if tokens is None:
-            return None
+        return None
 
     freq = calculate_frequencies(tokens)
     if freq is None:
@@ -224,7 +225,7 @@ def compare_profiles_by_top_n(
         return None
 
     if not isinstance(top_n, int) or isinstance(top_n, bool) or top_n <= 0:
-         return None
+        return None
 
     unknown_top = get_top_n_words(unknown_profile[1], top_n)
     known_top = get_top_n_words(profile_to_compare[1], top_n)

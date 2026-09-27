@@ -1,6 +1,7 @@
 """
 Language detection starter.
 """
+
 from lab_1_classify_profile.main import (
     calculate_frequencies,
     create_language_profile,
@@ -43,8 +44,6 @@ def main() -> None:
     print("Язык неизвестного текста:", detected)
 
     assert detected, "Detection result is None"
-
-
 
 
 if __name__ == "__main__":
