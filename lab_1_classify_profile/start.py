@@ -40,10 +40,10 @@ def main() -> None:
     de_profile = create_language_profile("de", de_text, stopwords)
     unknown_profile = create_language_profile("unknown", unknown_text, stopwords)
 
-    detected = detect_language_by_top_n(unknown_profile, en_profile, de_profile, 15)
-    print("Язык неизвестного текста:", detected)
+    result = detect_language_by_top_n(unknown_profile, en_profile, de_profile, 15)
+    print("Язык неизвестного текста:", result)
 
-    assert detected, "Detection result is None"
+    assert result, "Detection result is None"
 
 
 if __name__ == "__main__":
