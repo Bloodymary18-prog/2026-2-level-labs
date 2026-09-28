@@ -41,7 +41,7 @@ def main() -> None:
     unknown_profile = create_language_profile("unknown", unknown_text, stopwords)
 
     result = detect_language_by_top_n(unknown_profile, en_profile, de_profile, 15)
-    print("Язык неизвестного текста:", result)
+    print("Language is", result)
 
     assert result, "Detection result is None"
 
