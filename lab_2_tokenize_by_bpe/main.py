@@ -175,6 +175,31 @@ def train(
     In case of corrupt input arguments or functions used return None,
     None is returned
     """
+    if not isinstance(word_frequencies, dict):
+        return None
+
+    current = dict(word_frequencies)
+
+    for _ in range(num_merges):
+        pairs = count_tokens_pairs(current)
+
+        if not pairs:
+            break
+
+        best_pair = None
+        best_score = None
+
+        for pair, freq in pairs.items():
+            merged = pair[0] + pair[1]
+            score = (-freq, -len(merged), merged)
+
+            if best_score is None or score < best_score:
+                best_score = score
+                best_pair = pair
+
+        current = merge_tokens(current, best_pair)
+
+    return current
 
 
 def get_vocabulary(
@@ -193,6 +218,27 @@ def get_vocabulary(
 
     In case of corrupt input arguments, None is returned
     """
+    if not isinstance(word_frequencies, dict):
+        return None
+    if not isinstance(unknown_token, str):
+        return None
+
+    tokens = set()
+    tokens.add(unknown_token)
+
+    for word in word_frequencies:
+        for token in word:
+            tokens.add(token)
+            for char in token:
+                tokens.add(char)
+
+    tokens_list = sorted(tokens, key=lambda t: (-len(t), t))
+
+    vocabulary = {}
+    for idx, token in enumerate(tokens_list):
+        vocabulary[token] = idx
+
+    return vocabulary
 
 
 def decode(
@@ -214,6 +260,29 @@ def decode(
 
     In case of corrupt input arguments, None is returned
     """
+    if encoded_text is None or not isinstance(vocabulary, dict):
+        return None
+    if end_of_word_token is not None and not isinstance(end_of_word_token, str):
+        return None
+
+    inverse = {}
+    for token, idx in vocabulary.items():
+        inverse[idx] = token
+
+    parts = []
+
+    for idx in encoded_text:
+        if idx not in inverse:
+            return None
+
+        token = inverse[idx]
+
+        if token == end_of_word_token:
+            parts.append(" ")
+        else:
+            parts.append(token)
+
+    return "".join(parts)
 
 
 def tokenize_word(
