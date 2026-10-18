@@ -4,9 +4,9 @@ BPE Tokenizer starter
 
 from lab_2_tokenize_by_bpe.main import (
     collect_frequencies,
-    train,
-    get_vocabulary,
     decode,
+    get_vocabulary,
+    train,
 )
 
 
