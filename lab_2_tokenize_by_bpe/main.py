@@ -128,30 +128,30 @@ def merge_tokens(
     """
     if not isinstance(word_frequencies, dict):
         return None
-    if not isinstance(dict, int):
+    if not isinstance(pair, tuple) or len(pair) != 2:
         return None
 
-    a,b = pair
-    if not isinstance(a, str) or not isinstance(b, str):
+    first_token, second_token = pair
+    if not isinstance(first_token, str) or not isinstance(second_token, str):
         return None
 
-    merged = a + b
+    merged = first_token + second_token
     new_frequencies = {}
 
     for word, freq in word_frequencies.items():
         new_word = []
         i = 0
 
-    while i < len(word):
-        if i < len(word) - 1 and word[i] == a and word[i + 1] == b:
-            new_word.append(merged)
-            i += 2
-        else:
-            new_word.append(word[i])
-            i += 1
+        while i < len(word):
+            if i < len(word) - 1 and word[i] == first_token and word[i + 1] == second_token:
+                new_word.append(merged)
+                i += 2
+            else:
+                new_word.append(word[i])
+                i += 1
 
-    new_tuple = tuple(new_word)
-    new_frequencies[new_tuple] = new_frequencies.get(new_tuple, 0) + freq
+        new_tuple = tuple(new_word)
+        new_frequencies[new_tuple] = new_frequencies.get(new_tuple, 0) + freq
 
     return new_frequencies
 
@@ -176,6 +176,9 @@ def train(
     None is returned
     """
     if not isinstance(word_frequencies, dict):
+        return None
+
+    if isinstance(num_merges, bool) or not isinstance(num_merges, int) or num_merges < 0:
         return None
 
     current = dict(word_frequencies)
@@ -260,7 +263,9 @@ def decode(
 
     In case of corrupt input arguments, None is returned
     """
-    if encoded_text is None or not isinstance(vocabulary, dict):
+    if not isinstance(encoded_text, (list, tuple)) or len(encoded_text) == 0:
+        return None
+    if not isinstance(vocabulary, dict):
         return None
     if end_of_word_token is not None and not isinstance(end_of_word_token, str):
         return None
