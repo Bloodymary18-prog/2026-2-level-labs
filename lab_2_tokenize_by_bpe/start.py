@@ -28,7 +28,10 @@ def main() -> None:
     trained = train(frequencies, 100)
     vocabulary = get_vocabulary(trained, "<unk>")
 
-    result = vocabulary
+    test_encoded = [0]
+    result = decode(test_encoded, vocabulary, "</s>")
+
+    print("Result:", result)
     assert result, "Translation not working"
 
 
