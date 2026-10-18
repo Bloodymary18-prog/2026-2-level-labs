@@ -8,8 +8,6 @@ from lab_2_tokenize_by_bpe.main import (
     get_vocabulary,
     train,
 )
-
-
 # pylint:disable=too-many-locals, unused-variable
 
 
