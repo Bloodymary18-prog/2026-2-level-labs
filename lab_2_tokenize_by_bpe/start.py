@@ -26,9 +26,10 @@ def main() -> None:
     frequencies = collect_frequencies(text, None, "</s>")
     trained = train(frequencies, 100)
     vocabulary = get_vocabulary(trained, "<unk>")
+    with open("lab_2_tokenize_by_bpe/assets/secrets/secret_1.txt", "r", encoding="utf-8") as f:
+        encoded_text = [int(x) for x in f.read().split()]
 
-    test_encoded = [0]
-    result = decode(test_encoded, vocabulary, "</s>")
+    result = decode(encoded_text, vocabulary, "</s>")
 
     print("Result:", result)
     assert result, "Translation not working"
