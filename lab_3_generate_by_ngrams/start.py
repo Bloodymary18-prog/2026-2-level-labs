@@ -6,6 +6,7 @@ Generation by NGrams starter
 
 from lab_3_generate_by_ngrams.main import TextProcessor
 
+
 def main() -> None:
     """
     Launches an implementation.
@@ -27,6 +28,7 @@ def main() -> None:
 
     result = tokens
     assert result
+
 
 if __name__ == "__main__":
     main()
