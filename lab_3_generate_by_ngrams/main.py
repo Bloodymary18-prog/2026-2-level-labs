@@ -68,6 +68,9 @@ class TextProcessor:
             if not (is_last_word and not ends_with_separator):
                 tokens.append(self._end_of_word_token)
 
+        if not tokens:
+            return None
+
         return tuple(tokens)
 
     def get_id(self, element: str) -> int | None:
@@ -138,7 +141,7 @@ class TextProcessor:
         if not isinstance(text, str):
             return None
         tokens = self._tokenize(text)
-        if tokens is None:
+        if tokens is None or not tokens:
             return None
 
         encoded = []
