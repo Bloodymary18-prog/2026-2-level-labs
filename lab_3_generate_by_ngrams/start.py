@@ -26,7 +26,17 @@ def main() -> None:
     print("Tokens count:", len(tokens) if tokens else 0)
     print("First 30 tokens:", tokens[:30] if tokens else None)
 
-    result = tokens
+    encoded_text = tp.encode(text)
+    assert encoded_text is not None
+
+    decoded_text = tp.decode(encoded_text)
+    assert decoded_text is not None
+
+    print("Original text (first 100 chars):", text[:100])
+    print("Encoded text (first 50 ids):", encoded_text[:50])
+    print("Decoded text (first 100 chars):", decoded_text[:100])
+
+    result = decoded_text
     assert result
 
 
