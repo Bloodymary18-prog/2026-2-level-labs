@@ -2,14 +2,12 @@
 Generation by NGrams starter
 """
 
-
 # pylint:disable=too-many-locals, unused-import, unused-variable
 
-
 from lab_3_generate_by_ngrams.main import (
-    TextProcessor,
-    NGramLanguageModel,
     GreedyTextGenerator,
+    NGramLanguageModel,
+    TextProcessor,
 )
 
 
@@ -47,6 +45,7 @@ def main() -> None:
 
     result = generated_text
     assert result
+
 
 if __name__ == "__main__":
     main()
