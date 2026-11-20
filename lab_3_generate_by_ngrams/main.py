@@ -364,6 +364,8 @@ class NGramLanguageModel:
         Args:
             frequencies (dict): Computed in advance frequencies for n-grams
         """
+        if not isinstance (frequencies, dict):
+            return None
         self._n_gram_frequencies = frequencies
 
     def build(self) -> bool:
@@ -410,6 +412,22 @@ class NGramLanguageModel:
 
         In case of corrupt input arguments, None is returned
         """
+        if not isinstance (sequence, tuple):
+            return None
+
+        context_len = self.__n_gram_size - 1
+        if len(sequence) < context_len:
+            return None
+
+        context  = sequence[-context_len:]
+
+        next_tokens = {}
+        for n_gram, prob in self._n_gram_frequencies.items():
+            if  n_gram[:-1] == context:
+                next_token = n_gram[-1]
+                next_tokens[next_token] = prob
+
+        return next_tokens
 
     def _extract_n_grams(
         self, encoded_corpus: tuple[int, ...]
@@ -471,7 +489,23 @@ class GreedyTextGenerator:
         In case of corrupt input arguments or methods used return None,
         None is returned
         """
+        if not isinstance (prompt, str) or not isinstance (seq_len, int) or seq_len <= 0:
+            return None
 
+        encoded_prompt = self._text_processor.encode(prompt)
+        if encoded_prompt is None:
+            return None
+
+        current_sequence = encoded_prompt
+
+        for _ in range(seq_len):
+            candidates = self._model.generate_next_token(current_sequence)
+            if not candidates:
+                break
+            best_token = max(candidates.items(), key=lambda x: (x[1], x[0]))[0]
+            current_sequence += (best_token,)
+
+        return self._text_processor.decode(current_sequence)
 
 class BeamSearcher:
     """
